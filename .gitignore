@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.egg-info/
+*.eggs/
+*.env
+.env
+.venv/
+venv/
+env/
+ENV/
+
+# Django
+*.sqlite3
+db.sqlite3
+*.log
+media/
+staticfiles/
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Docker
+*.pid
+*.tar
+*.log
+docker-compose.override.yml
+
+# System
+.DS_Store
+Thumbs.db
+
+# Coverage
+htmlcov/
+.coverage
+.tox/
+.cache/
+.pytest_cache/
+
+# Migrations (если хочешь игнорировать их)
+# **/migrations/*.py
+# !**/migrations/__init__.py
+
+# Postman (если есть автогенерация)
+*.postman_collection.json
+
+# Build
+build/
+dist/
+
+# Secrets (если создашь отдельные файлы)
+secrets.json
