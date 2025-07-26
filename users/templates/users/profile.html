@@ -1,0 +1,24 @@
+<h2>Профиль {{ user.phone }}</h2>
+<p>Инвайт-код: {{ user.invite_code }}</p>
+
+{% if user.referred_by %}
+<p>Пригласил: {{ user.referred_by.phone }}</p>
+{% else %}
+<p>Пригласил: никто</p>
+{% endif %} {% if not user.referred_by %}
+<form method="post">
+  {% csrf_token %}
+  <label>Введите чужой инвайт-код:</label>
+  <input type="text" name="invite_code" required />
+  <button type="submit">Активировать</button>
+</form>
+{% endif %}
+
+<h3>Вы пригласили:</h3>
+<ul>
+  {% for u in referrals %}
+  <li>{{ u.phone }}</li>
+  {% empty %}
+  <li>Никого :(</li>
+  {% endfor %}
+</ul>

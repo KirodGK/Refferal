@@ -1,0 +1,9 @@
+<form method="post">
+  {% csrf_token %}
+  <label>Введите номер телефона:</label><br>
+  <input type="text" name="phone" required>
+  <button type="submit">Получить код</button>
+</form>
+{% if code %}
+  <p>Ваш код: <strong>{{ code }}</strong></p>
+{% endif %}
