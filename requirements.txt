@@ -1,3 +1,4 @@
 Django>=4.2
 djangorestframework
-dotenv
+python-dotenv
+gunicorn
