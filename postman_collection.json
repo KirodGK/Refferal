@@ -1,0 +1,130 @@
+{
+  "info": {
+    "name": "Referral System API with Auto Code",
+    "_postman_id": "auto-code-collection-1234",
+    "description": "Referral API с автоподстановкой кода из ответа",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    },
+    {
+      "key": "phone_number",
+      "value": "79001234567"
+    },
+    {
+      "key": "auth_code",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Request Auth Code",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone\": \"{{phone_number}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/request_code/",
+          "host": ["{{base_url}}"],
+          "path": ["auth", "request_code"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "let response = pm.response.json();",
+              "let codeMatch = response.message.match(/код: (\\d{4})/);",
+              "if (codeMatch) {",
+              "    let code = codeMatch[1];",
+              "    pm.environment.set(\"auth_code\", code);",
+              "    console.log(\"Auth code saved: \" + code);",
+              "} else {",
+              "    console.log(\"Auth code not found in response.\");",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Verify Auth Code",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone\": \"{{phone_number}}\",\n  \"code\": \"{{auth_code}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/verify_code/",
+          "host": ["{{base_url}}"],
+          "path": ["auth", "verify_code"]
+        }
+      }
+    },
+    {
+      "name": "Get Profile",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{phone_number}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/profile/",
+          "host": ["{{base_url}}"],
+          "path": ["profile"]
+        }
+      }
+    },
+    {
+      "name": "Activate Invite Code",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{phone_number}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"invite_code\": \"XYZ789\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/profile/",
+          "host": ["{{base_url}}"],
+          "path": ["profile"]
+        }
+      }
+    }
+  ]
+}
